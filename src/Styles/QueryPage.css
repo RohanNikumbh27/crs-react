@@ -1,0 +1,115 @@
+body {
+    background: linear-gradient(135deg, #e8f5fe, #b1fffc);
+
+    font-family: 'ABCDiatype', serif, cursive, sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container {
+    font-family: serif;
+    background: white;
+    margin: auto;
+    min-height: 50vh;
+    margin-top: 100px;
+    display: inline-block;
+    padding: 20px;
+    border-radius: 35px;
+    border: 4px solid #00ffde;
+    box-shadow: 0px 0px 20px #66ffff;
+    backdrop-filter: blur(44px);
+}
+
+
+
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    /* border: 1px solid #ccc; */
+    background-color: rgb(236, 236, 236);
+    border-radius: 10px;
+    border: none;
+    font-size: 1.1rem;
+
+}
+
+.hide {
+    transition: all ease 2s;
+}
+
+.button-container {
+    width: 100%;
+    /* Make sure the container takes full width */
+    text-align: center;
+    /* Center the button within the container */
+}
+
+button {
+    margin-top: 10px auto;
+    text-transform: uppercase;
+    outline: 0;
+    background: #e1fffe;
+    width: 100%;
+    border: 0;
+    padding: 13px;
+    color: #11222f;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: 'ABCDiatype';
+    border-radius: 10px;
+    transition: background-color 0.1s;
+    cursor: pointer;
+    border: 2px solid #66ffeb;
+}
+
+button:hover {
+    background-color: #000000;
+    color: rgb(255, 233, 188);
+    border: none;
+    border: 2px solid #ffffff;
+}
+
+.lout {
+    padding: 10px 20px;
+    background-color: red;
+    border-radius: 20%;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group {
+    width: 100%;
+    /* Adjust the width as needed */
+    /* Optional: Add margin or padding to the form groups for spacing */
+    margin-right: 1%;
+    /* Adjust the margin as needed */
+}
+
+
+.or-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin: 0 10px;
+    color: #333;
+}

@@ -1,0 +1,35 @@
+.themediv {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    border-radius: 20px;
+    background-color: rgb(0, 0, 0);
+    border: none;
+    color: wheat;
+    padding: 20px;
+    cursor: pointer;
+    animation: animateWhenTouch 0.2s ease-in-out
+}
+
+.darkthemeicon {
+    transform: scale(1.5);
+}
+
+.themediv:active {
+    /* transform: scale(1.1); */
+    /* transition-duration: 0.2s;*/
+    animation: animateWhenTouch 0.5s 0.5s ease-in-out both;
+}
+
+@keyframes animateWhenTouch {
+    0% {
+        transform: scale(1);
+        animation-timing-function: ease-in-out;
+    }
+
+    100% {
+        transform: scale(0.95);
+        animation-timing-function: ease-in-out;
+    }
+
+}

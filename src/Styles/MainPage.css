@@ -1,0 +1,336 @@
+.maindiv {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+body {
+    font-family: sans-serif, cursive, serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    height: 87vh;
+    background-size: cover;
+    margin-bottom: 100px;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-container {
+    /* background: white; */
+    z-index: 0;
+    top: 0px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*  */
+    flex-direction: column;
+}
+
+h1 {
+    text-align: center;
+    color: #3498db;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+th {
+    background-color: #68e1ff82;
+    color: #11222f;
+}
+
+.highlight {
+    /* background-color: ; */
+    /* Light blue-grey */
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+tr:hover {
+    background-color: #d4f6ff82;
+    /* Slightly darker on hover */
+}
+
+.cta-container {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.cta-btn {
+    background-color: #3498db;
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cta-btn:hover {
+    background-color: #2980b9;
+}
+
+.lout {
+    padding: 10px 20px;
+    background-color: red;
+    border-radius: 20%;
+}
+
+/* ########################################## */
+/* form style */
+
+
+.flash-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.container {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    /* margin-bottom: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px; */
+    /* background: #042331; */
+}
+
+button {
+    background-color: #e1fffe;
+    color: #fff;
+    padding: 10px;
+    border: 5px solid #66ffeb;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #11222f;
+    transition: 0.1s;
+}
+
+button:hover,
+.form button:active,
+.form button:focus {
+    background-color: #000000;
+    color: rgb(253, 219, 150);
+
+    border: 5px solid #000000;
+}
+
+.lout {
+    padding: 10px 20px;
+    background-color: red;
+    border-radius: 20%;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+}
+
+/* Sidebar styling */
+
+.sidebar {
+    /* background: white; */
+    background-size: cover;
+    position: absolute;
+    top: 0px;
+    left: -450px;
+    width: 450px;
+    height: 100%;
+    /* background: #042331; */
+    transition: all 0.5s ease;
+    margin-left: 6px;
+    border: 2px solid rgba(255, 255, 255, 0);
+}
+
+.sidebar header {
+    font-size: 22px;
+    color: #09193c;
+    line-height: 70px;
+    text-align: center;
+    background: #68e1ff82;
+    user-select: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #00ffff;
+    border-radius: 20px;
+    margin-top: 4px;
+    margin-bottom: 5px;
+}
+
+
+.mainpage-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 22px;
+    color: #041e45;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.sidebar h1 {
+    margin-top: 0px;
+}
+
+#check {
+    display: none;
+}
+
+label #btn,
+label #cancel {
+    z-index: 1;
+    position: absolute;
+    /* background: white; */
+    border-radius: 3px;
+    cursor: pointer;
+    filter: drop-shadow(0 0 2px rgb(52, 52, 52))
+}
+
+label #btn {
+    left: 40px;
+    top: 25px;
+    font-size: 35px;
+    color: black;
+    padding: 6px 12px;
+    transition: all .5s ease;
+}
+
+label #cancel {
+    z-index: 1111;
+    left: -395px;
+    top: 7px;
+    font-size: 58px;
+    /* color: #0a5275; */
+    color: black;
+    padding: 4px 9px;
+    transition: all .5s ease;
+}
+
+#check:checked~.sidebar {
+    left: 0;
+}
+
+#check:checked~label #btn {
+    left: 450px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#check:checked~label #cancel {
+    left: 385px;
+}
+
+
+#check:checked~.table-container {
+    margin-left: 463px;
+}
+
+
+.table-container {
+    transition: all .5s;
+}
+
+/* Styles for bottom buttons */
+.bottom-btns {
+    display: flex;
+    justify-content: center;
+}
+
+#check:checked~.bottom-btns {
+    margin-left: 450px;
+    transition: all 3s;
+}
+
+.bottom-btns button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.bottom-btns button:hover {
+    background-color: #62e0ff;
+    color: #fff;
+}
+
+.lout {
+    padding: 10px 20px;
+    background-color: #e74c3c;
+    /* Change to a red color */
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.lout:hover {
+    background-color: #c0392b;
+    /* Darker red on hover */
+}
+
+#printbtn {
+    background-color: rgb(168 147 0 / 30%);
+    color: rgb(93, 82, 0);
+    border: 2px solid rgb(143 136 0);
+    font: message-box;
+    font-weight: bold;
+}
+
+#printbtn:hover {
+    background-color: rgb(168 147 0 / 50%);
+}
+
+#logoutt {
+    font: message-box;
+    background-color: rgba(255, 0, 0, 0.3);
+    border: 2px solid red;
+    color: red;
+    font-weight: bold;
+}
+
+#logoutt:hover {
+    font: message-box;
+    background-color: rgba(172, 169, 169, 0.4);
+    border: 2px solid rgb(255, 0, 0);
+    color: rgb(255, 0, 0);
+    font-weight: bold;
+
+}
