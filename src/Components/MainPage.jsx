@@ -4,14 +4,61 @@ import "../Styles/MainPage.css";
 import { useState } from "react";
 import { HiMenu } from "react-icons/hi";
 import { IoIosClose } from "react-icons/io";
+import { useEffect } from "react";
+import getQueryData from "../Hooks/getQueryData";
+let collegeListURL =
+  "https://project-crs-server-1.onrender.com/api/v1/lists/colleges/cet";
+let branchListURL =
+  "https://project-crs-server-1.onrender.com/api/v1/lists/branches/cet";
+let categoryURL =
+  "https://project-crs-server-1.onrender.com/api/v1/lists/categories/cet/2022";
 
-const MainPage = () => {
-  // const [isOpen, setIsOpen] = useState(false);
+const MainPage = ({queryString}) => {
+  console.log("QueryString in main page: ")
+  console.log(queryString)
+  const [qResponse, setQResponse] = useState(null);
+  const [colleges, setColleges] = useState([]);
+  const [branches, setBranches] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-  // const toggleSidebar = (e) => {
-  //   console.log(e);
-  // };
-  // const sidebar = document.getElementById("#sidebartoggle");
+  const fetchCollegeData = async () => {
+    try {
+      const response = await fetch(collegeListURL);
+      const data = await response.json();
+      setColleges(data.data);
+      // console.log(data.data);
+    } catch (error) {
+      console.error("Error fetching colleges:", error);
+    }
+  };
+
+  const fetchBranchData = async () => {
+    try {
+      const response = await fetch(branchListURL);
+      const branchesData = await response.json();
+      // console.log(branchesData.data);
+      setBranches(branchesData.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch(categoryURL);
+      const categoryData = await response.json();
+      console.log(categoryData);
+      setCategories(categoryData.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCollegeData();
+    fetchBranchData();
+    fetchCategories();
+    getQueryData(queryString, setQResponse);
+  }, []);
 
   return (
     <div className="maindiv">
@@ -39,7 +86,7 @@ const MainPage = () => {
             name="percentile"
             id="percentile"
             placeholder="87.1234567"
-            value="88.2222222"
+            // value="88.2222222"
             onChange={() => console.log("Change Percentile")}
             onInput={() => console.log("handle")}
           />
@@ -50,7 +97,7 @@ const MainPage = () => {
             name="rank"
             id="rank"
             placeholder="Ex. 4500"
-            value="NaN"
+            // value="NaN"
             onChange={() => console.log("Change rank")}
             onInput={() => console.log("Handle")}
           />
@@ -105,9 +152,15 @@ const MainPage = () => {
             className="hide"
             style={{ display: "block" }}
           >
-            <option value="round1">Round 1</option>
-            <option value="round2">Round 2</option>
-            <option value="round3">Round 3</option>
+            <option value="round1" onChange={console.log("hi")}>
+              Round 1
+            </option>
+            <option value="round2" onChange={console.log("hi")}>
+              Round 2
+            </option>
+            <option value="round3" onChange={console.log("hi")}>
+              Round 3
+            </option>
           </select>
 
           <label htmlFor="branch">Select Branch:</label>

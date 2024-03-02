@@ -6,6 +6,10 @@ body {
     align-items: center;
 }
 
+.queryform-div {
+    display: flex;
+}
+
 .form-container {
     font-family: serif;
     background: white;
@@ -18,10 +22,13 @@ body {
     border: 4px solid #00ffde;
     box-shadow: 0px 0px 20px #66ffff;
     backdrop-filter: blur(44px);
+    /* margin: auto; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    /* align-content: center; */
+    justify-content: center;
 }
-
-
-
 
 label {
     display: block;
@@ -41,7 +48,6 @@ select {
     border-radius: 10px;
     border: none;
     font-size: 1.1rem;
-
 }
 
 .hide {
