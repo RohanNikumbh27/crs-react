@@ -8,9 +8,10 @@ let branchListURL =
   "https://project-crs-server-1.onrender.com/api/v1/lists/branches/cet";
 let categoryURL =
   "https://project-crs-server-1.onrender.com/api/v1/lists/categories/cet/2022";
-let queryString = "";
-
-const QueryPage = () => {
+  
+  const QueryPage = () => {
+  // let queryString = "Hi";
+  const [queryString, setQueryString] = useState("Hi");
   const navigate = useNavigate();
   //Data fetched from API
   const [colleges, setColleges] = useState([]);
@@ -73,8 +74,9 @@ const QueryPage = () => {
   const submitHandler = () => {
     // e.preventDefault();
     console.log("Form Submitted");
-    queryString = `${gender}/${category.current.value}/${percentile.current.value}/${rank.current.value}/${college.current.value}/${branch.current.value}/${year.current.value}/${round.current.value}`;
-    console.log(queryString);
+    let queryString = `${gender}/${category.current.value}/${percentile.current.value}/${rank.current.value}/${college.current.value}/${branch.current.value}/${year.current.value}/${round.current.value}`;
+    setQueryString(queryString);
+    console.log("Query string queryPage: ", queryString);
     // navigate('/')
   };
 
