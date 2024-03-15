@@ -1,11 +1,16 @@
 // import "../../node_modules/react-bootstrap";
 // import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../Styles/MainPage.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { HiMenu } from "react-icons/hi";
 import { IoIosClose } from "react-icons/io";
 import { useEffect } from "react";
-import getQueryData from "../Hooks/getQueryData";
+import useGetQueryData from "../Hooks/useGetQueryData";
+import useGetBranchList from "../Hooks/useGetBranchList";
+import useGetCollegeList from "../Hooks/useGetCollegeList";
+import useGetCategoryList from "../Hooks/useGetCategoryList";
+import useGetYearList from "../Hooks/useGetYearData";
+
 let collegeListURL =
   "https://project-crs-server-1.onrender.com/api/v1/lists/colleges/cet";
 let branchListURL =
@@ -13,51 +18,61 @@ let branchListURL =
 let categoryURL =
   "https://project-crs-server-1.onrender.com/api/v1/lists/categories/cet/2022";
 
-const MainPage = ({queryString}) => {
-  console.log("QueryString in main page: ")
-  console.log(queryString)
-  const [qResponse, setQResponse] = useState(null);
+const MainPage = ({ queryString }) => {
+  console.log("QueryString in main page: ");
+  console.log(queryString);
+  const [qResponse, setQResponse] = useState([]);
   const [colleges, setColleges] = useState([]);
   const [branches, setBranches] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [yearData, setYearData] = useState([]);
+  const [yearList, setYearList] = useState([]);
+  const [selectedYear, setSelectedYear] = useState();
+  const [selectedRound, setSelectedRound] = useState();
 
-  const fetchCollegeData = async () => {
-    try {
-      const response = await fetch(collegeListURL);
-      const data = await response.json();
-      setColleges(data.data);
-      // console.log(data.data);
-    } catch (error) {
-      console.error("Error fetching colleges:", error);
-    }
+  // ########### Reference Variables ##########
+  const gender = "female";
+  const category = useRef("");
+  // const category = "sc";
+  const percentile = useRef("");
+  const rank = useRef("");
+  const college = useRef("");
+  // const college = "vishwakarma";
+  const branch = useRef("");
+  // const branch = "Information";
+  const year = useRef("");
+  // const year = 2022;
+  const round = useRef("");
+  // const round = 1;
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    let queryString = `${gender}/${category.current.value}/${
+      percentile.current.value ? percentile.current.value : "null"
+    }/${rank.current.value ? rank.current.value : "null"}/${
+      college.current.value
+    }/${branch.current.value}/${year.current.value}/${round.current.value}`;
+    console.log(queryString);
+
+    useGetQueryData(queryString, setQResponse);
   };
 
-  const fetchBranchData = async () => {
-    try {
-      const response = await fetch(branchListURL);
-      const branchesData = await response.json();
-      // console.log(branchesData.data);
-      setBranches(branchesData.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch(categoryURL);
-      const categoryData = await response.json();
-      console.log(categoryData);
-      setCategories(categoryData.data);
-    } catch (err) {
-      console.log(err);
-    }
+  // function to set round on the basis year selected
+  const selectRoundsByYear = (e) => {
+    const year = e.target.value;
+    console.log(year);
+    const round = yearData[year];
+    setSelectedRound(round);
+    console.log("Round: ", round);
   };
 
   useEffect(() => {
-    fetchCollegeData();
-    fetchBranchData();
-    fetchCategories();
-    getQueryData(queryString, setQResponse);
+    useGetQueryData(queryString, setQResponse);
+    useGetBranchList(setBranches);
+    useGetCollegeList(setColleges);
+    useGetCategoryList(setCategories);
+    useGetYearList(setYearData, setYearList);
   }, []);
 
   return (
@@ -75,11 +90,13 @@ const MainPage = ({queryString}) => {
           className="mainpage-form"
           action="/main/query"
           method="GET"
-          onSubmit={() => console.log("Form Submitted")}
+          onSubmit={submitHandler}
         >
           <p id="flash-message" style={{ display: "none", color: "red" }}>
             Please fill Percentile or Rank
           </p>
+
+          {/* ########################### Percentile ############################## */}
           <label htmlFor="percentile">Percentile:</label>
           <input
             type="text"
@@ -89,7 +106,10 @@ const MainPage = ({queryString}) => {
             // value="88.2222222"
             onChange={() => console.log("Change Percentile")}
             onInput={() => console.log("handle")}
+            ref={percentile}
           />
+
+          {/* ########################### Rank ############################## */}
 
           <label htmlFor="rank">Rank:</label>
           <input
@@ -100,27 +120,33 @@ const MainPage = ({queryString}) => {
             // value="NaN"
             onChange={() => console.log("Change rank")}
             onInput={() => console.log("Handle")}
+            ref={rank}
           />
 
-          <input
-            type="text"
-            id="selectedExam"
-            name="selectedExam"
-            style={{ display: "none" }}
-          />
+          {/* ########################### Exam type ############################## */}
 
           <label htmlFor="exam">Select Exam:</label>
           <select name="exam" id="exam">
-            <option>JEE</option>
+            <option>MHT-CET</option>
+            <option disabled="true">JEE</option>
           </select>
 
-          <input
-            type="text"
-            id="selectedCategory"
-            name="selectedCategory"
-            style={{ display: "none" }}
-          />
+          {/* ########################### Year List ############################## */}
+          <label htmlFor="year">Select year:</label>
+          <select
+            name="year"
+            id="year"
+            ref={year}
+            onChange={(e) => {
+              selectRoundsByYear(e);
+            }}
+          >
+            {yearList.map((year) => (
+              <option key={year}>{year}</option>
+            ))}
+          </select>
 
+          {/* ########################### Category List ############################## */}
           <label
             htmlFor="category"
             id="categoryLabel"
@@ -134,10 +160,14 @@ const MainPage = ({queryString}) => {
             name="category"
             className="hide"
             style={{ display: "block" }}
+            ref={category}
           >
-            <option>GSCS</option>
+            {categories.map((category) => (
+              <option key={category}>{category}</option>
+            ))}
           </select>
 
+          {/* ########################### Round List ############################## */}
           <label
             htmlFor="round"
             id="roundLabel"
@@ -150,33 +180,47 @@ const MainPage = ({queryString}) => {
             name="round"
             id="round"
             className="hide"
+            ref={round}
             style={{ display: "block" }}
           >
-            <option value="round1" onChange={console.log("hi")}>
-              Round 1
-            </option>
-            <option value="round2" onChange={console.log("hi")}>
-              Round 2
-            </option>
-            <option value="round3" onChange={console.log("hi")}>
-              Round 3
-            </option>
+            {(() => {
+              let arrOfRounds = [];
+              for (let i = 1; i <= selectedRound; i++) {
+                arrOfRounds.push(i);
+              }
+
+              return arrOfRounds.map((round) => {
+                return <option value={round}>{`Round ${round}`}</option>;
+              });
+            })()}
           </select>
 
+          {/* ############################### Branch List ############################### */}
           <label htmlFor="branch">Select Branch:</label>
-          <select name="branch" id="branch">
+          <select name="branch" id="branch" ref={branch}>
             <option>All Branches</option>
+            {branches.map((oneBranch) => (
+              <option key={oneBranch}>{oneBranch}</option>
+            ))}
           </select>
 
+          {/* ############################### College List ############################### */}
           <label htmlFor="collegeSearch">Search College:</label>
           <input
             type="text"
             name="collegeSearch"
             id="collegeSearch"
             list="collegesList"
-            placeholder="Start typing..."
+            placeholder="Start typing your college name..."
+            ref={college}
           />
+          <datalist id="collegesList">
+            {colleges.map((College, key) => (
+              <option key={key}>{College}</option>
+            ))}
+          </datalist>
 
+          {/* ######################## Result Display Limit ######################### */}
           <label htmlFor="numRows">Result Display Limit:</label>
           <input type="number" name="numRows" id="numRows" step="1" min="1" />
 
@@ -217,81 +261,17 @@ const MainPage = ({queryString}) => {
               <th>Course Name</th>
               <th>Exam</th>
             </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                2025 - Shri Guru Gobind Singhji Institute of Engineering and
-                Technology, Nanded
-              </td>
-              <td>17226</td>
-              <td>88.0387129</td>
-              <td> Instrumentation Engineering</td>
-              <td>MHT-CET</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>
-                3036 - Dr. Babasaheb Ambedkar Technological University, Lonere
-              </td>
-              <td>17868</td>
-              <td>87.6664783</td>
-              <td> Electrical Engineering</td>
-              <td>MHT-CET</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>
-                6156 - G.H.Raisoni College of Engineering &amp; Management,
-                Wagholi, Pune
-              </td>
-              <td>18789</td>
-              <td>87.0496161</td>
-              <td> Computer Engineering</td>
-              <td>MHT-CET</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>
-                3037 - Dr. Babasaheb Ambedkar Technological University, Lonere
-              </td>
-              <td>19269</td>
-              <td>86.7544428</td>
-              <td> Electronics and Telecommunication Engg</td>
-              <td>MHT-CET</td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>
-                3181 - Thakur College of Engineering and Technology, Kandivali,
-                Mumbai
-              </td>
-              <td>19469</td>
-              <td>86.5455138</td>
-              <td> Electronics Engineering</td>
-              <td>MHT-CET</td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td>
-                6177 - G. H.Raisoni Institute of Engineering and Technology,
-                Wagholi, Pune
-              </td>
-              <td>20064</td>
-              <td>86.1623155</td>
-              <td> Computer Engineering</td>
-              <td>MHT-CET</td>
-            </tr>
-            <tr>
-              <td>7</td>
-              <td>
-                6289 - B.R.A.C.T's Vishwakarma Institute of Information
-                Technology, Kondhwa (Bk.), Pune
-              </td>
-              <td>20273</td>
-              <td>86.0198563</td>
-              <td> Civil Engineering</td>
-              <td>MHT-CET</td>
-            </tr>
+
+            {qResponse.map((CollegeInfo, index) => (
+              <tr key={index + 1}>
+                <td>{index + 1}</td>
+                <td>{CollegeInfo.college}</td>
+                <td>{CollegeInfo.rank}</td>
+                <td>{CollegeInfo.percentile}</td>
+                <td>{CollegeInfo.course}</td>
+                <td>MHT-CET</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -300,3 +280,14 @@ const MainPage = ({queryString}) => {
 };
 
 export default MainPage;
+
+const fetchCollegeData = async () => {
+  try {
+    const response = await fetch(collegeListURL);
+    const data = await response.json();
+    setColleges(data.data);
+    // console.log(data.data);
+  } catch (error) {
+    console.error("Error fetching colleges:", error);
+  }
+};
